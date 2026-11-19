@@ -1,0 +1,35 @@
+<!doctype html>
+<meta charset="utf-8">
+<audio id="a" src="notify.wav" preload="auto"></audio>
+<script>
+const a = document.getElementById('a');
+function play(vol) {
+  a.volume = vol; a.currentTime = 0;
+  return a.play().catch(() => {});
+}
+// Рисует иконку приложения с красным бейджем-счётчиком, возвращает data-URL PNG
+function drawBadge(iconUrl, n) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const S = 64, c = document.createElement('canvas');
+      c.width = c.height = S;
+      const g = c.getContext('2d');
+      g.drawImage(img, 0, 0, S, S);
+      if (n > 0) {
+        const r = S * 0.31, cx = S - r - 1, cy = r + 1;
+        g.beginPath(); g.arc(cx, cy, r, 0, Math.PI * 2);
+        g.fillStyle = '#e5322d'; g.fill();
+        g.lineWidth = 3; g.strokeStyle = '#fff'; g.stroke();
+        g.fillStyle = '#fff';
+        g.font = 'bold ' + (n > 9 ? 22 : 28) + 'px sans-serif';
+        g.textAlign = 'center'; g.textBaseline = 'middle';
+        g.fillText(n > 9 ? '9+' : String(n), cx, cy + 1);
+      }
+      resolve(c.toDataURL('image/png'));
+    };
+    img.onerror = () => resolve('');
+    img.src = iconUrl;
+  });
+}
+</script>

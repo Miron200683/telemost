@@ -1,0 +1,55 @@
+{
+  "name": "yandex-telemost",
+  "version": "1.3.7",
+  "description": "Яндекс Телемост для Linux с нормальными уведомлениями в KDE",
+  "main": "main.js",
+  "author": "Telemost Desktop <telemost@example.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --linux AppImage"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "ru.yandex.telemost.desktop",
+    "productName": "Яндекс Телемост",
+    "executableName": "yandex-telemost",
+    "artifactName": "Yandex-Telemost-${version}-x86_64.AppImage",
+    "files": [
+      "main.js",
+      "preload.js",
+      "restart.js",
+      "build/icon.png"
+    ],
+    "extraResources": [
+      {
+        "from": "build/icon.png",
+        "to": "icon.png"
+      },
+      {
+        "from": "build/sound",
+        "to": "sound"
+      }
+    ],
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Network",
+      "icon": "build/icon.png",
+      "synopsis": "Видеовстречи Яндекс Телемост",
+      "desktop": {
+        "Name": "Яндекс Телемост",
+        "Comment": "Видеовстречи Яндекс Телемост",
+        "Categories": "Network;VideoConference;",
+        "StartupWMClass": "yandex-telemost"
+      }
+    }
+  },
+  "dependencies": {
+    "dbus-next": "^0.10.2"
+  }
+}

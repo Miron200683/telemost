@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Яндекс Телемост
+Comment=Видеовстречи Яндекс Телемост
+Exec=yandex-telemost %U
+Icon=yandex-telemost
+Terminal=false
+Categories=Network;VideoConference;
+StartupWMClass=yandex-telemost

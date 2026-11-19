@@ -1,0 +1,31 @@
+# Maintainer: Roman <roman@localhost>
+pkgname=yandex-telemost
+pkgver=1.3.7
+pkgrel=1
+pkgdesc='Яндекс Телемост: клиент на Electron с нативными уведомлениями KDE, треем и аватарками'
+arch=('any')
+url='https://telemost.yandex.ru'
+license=('MIT')
+depends=('electron' 'libnotify')
+optdepends=('pipewire: демонстрация экрана на Wayland'
+            'xdg-desktop-portal: выбор окна/экрана при демонстрации на Wayland'
+            'xdg-desktop-portal-kde: портал для KDE Plasma')
+source=("$pkgname-$pkgver.tar.gz"
+        'yandex-telemost.sh'
+        'yandex-telemost.desktop')
+sha256sums=('95bc95e2e8264e5249a89e370a2ef99c741fe74d60812d10cff986901ac53296'
+            'a4dc1201d3a66d209abfc26392cfa1e59a1b10f70b4ae3bbf80f9315f223e90e'
+            'b732cc6c3b9788b13216f9279d0317a2565a73e787f64e03751d0ea42b456e45')
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  install -dm755 "$pkgdir/usr/lib/$pkgname"
+  cp -r main.js preload.js restart.js package.json build node_modules "$pkgdir/usr/lib/$pkgname/"
+  find "$pkgdir/usr/lib/$pkgname" -type d -exec chmod 755 {} +
+  find "$pkgdir/usr/lib/$pkgname" -type f -exec chmod 644 {} +
+
+  install -Dm755 "$srcdir/yandex-telemost.sh" "$pkgdir/usr/bin/yandex-telemost"
+  install -Dm644 "$srcdir/yandex-telemost.desktop" "$pkgdir/usr/share/applications/yandex-telemost.desktop"
+  install -Dm644 build/icon.png "$pkgdir/usr/share/icons/hicolor/512x512/apps/yandex-telemost.png"
+}
